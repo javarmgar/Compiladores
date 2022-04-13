@@ -1,0 +1,40 @@
+entero i;
+entero k=i;
+flotante pi=3.1416;
+flotante pi2=pi*pi;
+entero factorial;
+
+
+
+
+
+
+
+define factorial(entero n):entero
+{
+   entero prodp=1;
+   entero contador=1;
+
+si(n<=1)
+regresa 1;
+
+si(n<=1)
+regresa 1;
+si(n<=1)
+regresa 1;
+   
+   otro
+      mientras (contador <= n){
+         prodp= prodp*contador;
+         contador=contador+1;
+      } 
+
+
+
+
+   
+
+}
+
+
+

@@ -1,0 +1,1450 @@
+Gramática
+
+    0 $accept: programa $end
+
+    1 programa: lista_declVars lista_declFuncion SecPpal
+    2         | lista_declFuncion SecPpal
+    3         | lista_declVars
+
+    4 SecPpal: lista_sentencias
+
+    5 lista_declVars: variable ';'
+    6               | variable ';' lista_declVars
+
+    7 variable: tipo ID
+    8         | tipo ID '=' exp
+
+    9 lista_declFuncion: declFuncion
+   10                  | declFuncion lista_declFuncion
+
+   11 declFuncion: proto_funcion '{' lista_sentencias '}'
+
+   12 lista_sentencias: sentencia
+   13                 | sentencia lista_sentencias
+
+   14 sentencia: variable ';'
+   15          | ID '=' exp ';'
+   16          | REGRESA exp ';'
+   17          | estructura
+   18          | desplegar ';'
+
+   19 desplegar: DESPLIEGA '(' STRING ')'
+   20          | DESPLIEGA '(' exp ')'
+
+   21 estructura: condicionalSI
+   22           | mientras
+
+   23 condicionalSI: SI '(' list_exp_logica ')' sentencia OTRO sentencia
+   24              | SI '(' list_exp_logica ')' '{' lista_sentencias '}' OTRO '{' lista_sentencias '}'
+   25              | SI '(' list_exp_logica ')' sentencia
+   26              | SI '(' list_exp_logica ')' '{' lista_sentencias '}'
+
+   27 mientras: MIENTRAS '(' list_exp_logica ')' '{' '}'
+   28         | MIENTRAS '(' list_exp_logica ')' '{' lista_sentencias '}'
+   29         | MIENTRAS '(' list_exp_logica ')' sentencia
+
+   30 list_exp_logica: op_unario exp_logica
+   31                | op_unario exp_logica op_log_bin list_exp_logica
+
+   32 exp_logica: exp op_comp exp
+
+   33 op_comp: MYIGUAL
+   34        | MRIGUAL
+   35        | IGUAL
+   36        | DIFER
+
+   37 op_log_bin: AND
+   38           | OR
+
+   39 op_unario: %empty
+   40          | NOT
+
+   41 proto_funcion: DEFINE ID '(' lista_params ')' ':' tipo
+   42              | DEFINE ID '(' ')' ':' tipo
+
+   43 lista_params: param
+   44             | param ',' lista_params
+
+   45 param: tipo ID
+   46      | tipo ID '=' exp
+   47      | exp
+
+   48 invoc_funcion: ID '(' lista_params ')'
+   49              | ID '(' ')'
+
+   50 SecPpal: %empty
+
+   51 tipo: ENTERO
+   52     | FLOAT
+
+   53 exp: ID
+   54    | INT
+   55    | FLOTANTE
+   56    | invoc_funcion
+   57    | exp '+' exp
+   58    | exp '-' exp
+   59    | exp '*' exp
+   60    | exp '/' exp
+
+
+Terminales con las reglas donde aparecen
+
+$end (0) 0
+'(' (40) 19 20 23 24 25 26 27 28 29 41 42 48 49
+')' (41) 19 20 23 24 25 26 27 28 29 41 42 48 49
+'*' (42) 59
+'+' (43) 57
+',' (44) 44
+'-' (45) 58
+'/' (47) 60
+':' (58) 41 42
+';' (59) 5 6 14 15 16 18
+'=' (61) 8 15 46
+'{' (123) 11 24 26 27 28
+'}' (125) 11 24 26 27 28
+error (256)
+ID (258) 7 8 15 41 42 45 46 48 49 53
+STRING (259) 19
+INT (260) 54
+DESPLIEGA (261) 19 20
+SI (262) 23 24 25 26
+OTRO (263) 23 24
+AND (264) 37
+OR (265) 38
+NOT (266) 40
+DIFER (267) 36
+IGUAL (268) 35
+ENTERO (269) 51
+MIENTRAS (270) 27 28 29
+FLOTANTE (271) 55
+MYIGUAL (272) 33
+MRIGUAL (273) 34
+FLOAT (274) 52
+DEFINE (275) 41 42
+REGRESA (276) 16
+
+
+No terminales con las reglas donde aparecen
+
+$accept (34)
+    en la izquierda: 0
+programa (35)
+    en la izquierda: 1 2 3, en la derecha: 0
+SecPpal (36)
+    en la izquierda: 4 50, en la derecha: 1 2
+lista_declVars (37)
+    en la izquierda: 5 6, en la derecha: 1 3 6
+variable (38)
+    en la izquierda: 7 8, en la derecha: 5 6 14
+lista_declFuncion (39)
+    en la izquierda: 9 10, en la derecha: 1 2 10
+declFuncion (40)
+    en la izquierda: 11, en la derecha: 9 10
+lista_sentencias (41)
+    en la izquierda: 12 13, en la derecha: 4 11 13 24 26 28
+sentencia (42)
+    en la izquierda: 14 15 16 17 18, en la derecha: 12 13 23 25 29
+desplegar (43)
+    en la izquierda: 19 20, en la derecha: 18
+estructura (44)
+    en la izquierda: 21 22, en la derecha: 17
+condicionalSI (45)
+    en la izquierda: 23 24 25 26, en la derecha: 21
+mientras (46)
+    en la izquierda: 27 28 29, en la derecha: 22
+list_exp_logica (47)
+    en la izquierda: 30 31, en la derecha: 23 24 25 26 27 28 29 31
+exp_logica (48)
+    en la izquierda: 32, en la derecha: 30 31
+op_comp (49)
+    en la izquierda: 33 34 35 36, en la derecha: 32
+op_log_bin (50)
+    en la izquierda: 37 38, en la derecha: 31
+op_unario (51)
+    en la izquierda: 39 40, en la derecha: 30 31
+proto_funcion (52)
+    en la izquierda: 41 42, en la derecha: 11
+lista_params (53)
+    en la izquierda: 43 44, en la derecha: 41 44 48
+param (54)
+    en la izquierda: 45 46 47, en la derecha: 43 44
+invoc_funcion (55)
+    en la izquierda: 48 49, en la derecha: 56
+tipo (56)
+    en la izquierda: 51 52, en la derecha: 7 8 41 42 45 46
+exp (57)
+    en la izquierda: 53 54 55 56 57 58 59 60, en la derecha: 8 15 16
+    20 32 46 47 57 58 59 60
+
+
+State 0
+
+    0 $accept: . programa $end
+
+    ENTERO  desplazar e ir al estado 1
+    FLOAT   desplazar e ir al estado 2
+    DEFINE  desplazar e ir al estado 3
+
+    programa           ir al estado 4
+    lista_declVars     ir al estado 5
+    variable           ir al estado 6
+    lista_declFuncion  ir al estado 7
+    declFuncion        ir al estado 8
+    proto_funcion      ir al estado 9
+    tipo               ir al estado 10
+
+
+State 1
+
+   51 tipo: ENTERO .
+
+    $default  reduce usando la regla 51 (tipo)
+
+
+State 2
+
+   52 tipo: FLOAT .
+
+    $default  reduce usando la regla 52 (tipo)
+
+
+State 3
+
+   41 proto_funcion: DEFINE . ID '(' lista_params ')' ':' tipo
+   42              | DEFINE . ID '(' ')' ':' tipo
+
+    ID  desplazar e ir al estado 11
+
+
+State 4
+
+    0 $accept: programa . $end
+
+    $end  desplazar e ir al estado 12
+
+
+State 5
+
+    1 programa: lista_declVars . lista_declFuncion SecPpal
+    3         | lista_declVars .
+
+    DEFINE  desplazar e ir al estado 3
+
+    $default  reduce usando la regla 3 (programa)
+
+    lista_declFuncion  ir al estado 13
+    declFuncion        ir al estado 8
+    proto_funcion      ir al estado 9
+
+
+State 6
+
+    5 lista_declVars: variable . ';'
+    6               | variable . ';' lista_declVars
+
+    ';'  desplazar e ir al estado 14
+
+
+State 7
+
+    2 programa: lista_declFuncion . SecPpal
+
+    ID         desplazar e ir al estado 15
+    DESPLIEGA  desplazar e ir al estado 16
+    SI         desplazar e ir al estado 17
+    ENTERO     desplazar e ir al estado 1
+    MIENTRAS   desplazar e ir al estado 18
+    FLOAT      desplazar e ir al estado 2
+    REGRESA    desplazar e ir al estado 19
+
+    $default  reduce usando la regla 50 (SecPpal)
+
+    SecPpal           ir al estado 20
+    variable          ir al estado 21
+    lista_sentencias  ir al estado 22
+    sentencia         ir al estado 23
+    desplegar         ir al estado 24
+    estructura        ir al estado 25
+    condicionalSI     ir al estado 26
+    mientras          ir al estado 27
+    tipo              ir al estado 10
+
+
+State 8
+
+    9 lista_declFuncion: declFuncion .
+   10                  | declFuncion . lista_declFuncion
+
+    DEFINE  desplazar e ir al estado 3
+
+    $default  reduce usando la regla 9 (lista_declFuncion)
+
+    lista_declFuncion  ir al estado 28
+    declFuncion        ir al estado 8
+    proto_funcion      ir al estado 9
+
+
+State 9
+
+   11 declFuncion: proto_funcion . '{' lista_sentencias '}'
+
+    '{'  desplazar e ir al estado 29
+
+
+State 10
+
+    7 variable: tipo . ID
+    8         | tipo . ID '=' exp
+
+    ID  desplazar e ir al estado 30
+
+
+State 11
+
+   41 proto_funcion: DEFINE ID . '(' lista_params ')' ':' tipo
+   42              | DEFINE ID . '(' ')' ':' tipo
+
+    '('  desplazar e ir al estado 31
+
+
+State 12
+
+    0 $accept: programa $end .
+
+    $default  aceptar
+
+
+State 13
+
+    1 programa: lista_declVars lista_declFuncion . SecPpal
+
+    ID         desplazar e ir al estado 15
+    DESPLIEGA  desplazar e ir al estado 16
+    SI         desplazar e ir al estado 17
+    ENTERO     desplazar e ir al estado 1
+    MIENTRAS   desplazar e ir al estado 18
+    FLOAT      desplazar e ir al estado 2
+    REGRESA    desplazar e ir al estado 19
+
+    $default  reduce usando la regla 50 (SecPpal)
+
+    SecPpal           ir al estado 32
+    variable          ir al estado 21
+    lista_sentencias  ir al estado 22
+    sentencia         ir al estado 23
+    desplegar         ir al estado 24
+    estructura        ir al estado 25
+    condicionalSI     ir al estado 26
+    mientras          ir al estado 27
+    tipo              ir al estado 10
+
+
+State 14
+
+    5 lista_declVars: variable ';' .
+    6               | variable ';' . lista_declVars
+
+    ENTERO  desplazar e ir al estado 1
+    FLOAT   desplazar e ir al estado 2
+
+    $default  reduce usando la regla 5 (lista_declVars)
+
+    lista_declVars  ir al estado 33
+    variable        ir al estado 6
+    tipo            ir al estado 10
+
+
+State 15
+
+   15 sentencia: ID . '=' exp ';'
+
+    '='  desplazar e ir al estado 34
+
+
+State 16
+
+   19 desplegar: DESPLIEGA . '(' STRING ')'
+   20          | DESPLIEGA . '(' exp ')'
+
+    '('  desplazar e ir al estado 35
+
+
+State 17
+
+   23 condicionalSI: SI . '(' list_exp_logica ')' sentencia OTRO sentencia
+   24              | SI . '(' list_exp_logica ')' '{' lista_sentencias '}' OTRO '{' lista_sentencias '}'
+   25              | SI . '(' list_exp_logica ')' sentencia
+   26              | SI . '(' list_exp_logica ')' '{' lista_sentencias '}'
+
+    '('  desplazar e ir al estado 36
+
+
+State 18
+
+   27 mientras: MIENTRAS . '(' list_exp_logica ')' '{' '}'
+   28         | MIENTRAS . '(' list_exp_logica ')' '{' lista_sentencias '}'
+   29         | MIENTRAS . '(' list_exp_logica ')' sentencia
+
+    '('  desplazar e ir al estado 37
+
+
+State 19
+
+   16 sentencia: REGRESA . exp ';'
+
+    ID        desplazar e ir al estado 38
+    INT       desplazar e ir al estado 39
+    FLOTANTE  desplazar e ir al estado 40
+
+    invoc_funcion  ir al estado 41
+    exp            ir al estado 42
+
+
+State 20
+
+    2 programa: lista_declFuncion SecPpal .
+
+    $default  reduce usando la regla 2 (programa)
+
+
+State 21
+
+   14 sentencia: variable . ';'
+
+    ';'  desplazar e ir al estado 43
+
+
+State 22
+
+    4 SecPpal: lista_sentencias .
+
+    $default  reduce usando la regla 4 (SecPpal)
+
+
+State 23
+
+   12 lista_sentencias: sentencia .
+   13                 | sentencia . lista_sentencias
+
+    ID         desplazar e ir al estado 15
+    DESPLIEGA  desplazar e ir al estado 16
+    SI         desplazar e ir al estado 17
+    ENTERO     desplazar e ir al estado 1
+    MIENTRAS   desplazar e ir al estado 18
+    FLOAT      desplazar e ir al estado 2
+    REGRESA    desplazar e ir al estado 19
+
+    $default  reduce usando la regla 12 (lista_sentencias)
+
+    variable          ir al estado 21
+    lista_sentencias  ir al estado 44
+    sentencia         ir al estado 23
+    desplegar         ir al estado 24
+    estructura        ir al estado 25
+    condicionalSI     ir al estado 26
+    mientras          ir al estado 27
+    tipo              ir al estado 10
+
+
+State 24
+
+   18 sentencia: desplegar . ';'
+
+    ';'  desplazar e ir al estado 45
+
+
+State 25
+
+   17 sentencia: estructura .
+
+    $default  reduce usando la regla 17 (sentencia)
+
+
+State 26
+
+   21 estructura: condicionalSI .
+
+    $default  reduce usando la regla 21 (estructura)
+
+
+State 27
+
+   22 estructura: mientras .
+
+    $default  reduce usando la regla 22 (estructura)
+
+
+State 28
+
+   10 lista_declFuncion: declFuncion lista_declFuncion .
+
+    $default  reduce usando la regla 10 (lista_declFuncion)
+
+
+State 29
+
+   11 declFuncion: proto_funcion '{' . lista_sentencias '}'
+
+    ID         desplazar e ir al estado 15
+    DESPLIEGA  desplazar e ir al estado 16
+    SI         desplazar e ir al estado 17
+    ENTERO     desplazar e ir al estado 1
+    MIENTRAS   desplazar e ir al estado 18
+    FLOAT      desplazar e ir al estado 2
+    REGRESA    desplazar e ir al estado 19
+
+    variable          ir al estado 21
+    lista_sentencias  ir al estado 46
+    sentencia         ir al estado 23
+    desplegar         ir al estado 24
+    estructura        ir al estado 25
+    condicionalSI     ir al estado 26
+    mientras          ir al estado 27
+    tipo              ir al estado 10
+
+
+State 30
+
+    7 variable: tipo ID .
+    8         | tipo ID . '=' exp
+
+    '='  desplazar e ir al estado 47
+
+    $default  reduce usando la regla 7 (variable)
+
+
+State 31
+
+   41 proto_funcion: DEFINE ID '(' . lista_params ')' ':' tipo
+   42              | DEFINE ID '(' . ')' ':' tipo
+
+    ID        desplazar e ir al estado 38
+    INT       desplazar e ir al estado 39
+    ENTERO    desplazar e ir al estado 1
+    FLOTANTE  desplazar e ir al estado 40
+    FLOAT     desplazar e ir al estado 2
+    ')'       desplazar e ir al estado 48
+
+    lista_params   ir al estado 49
+    param          ir al estado 50
+    invoc_funcion  ir al estado 41
+    tipo           ir al estado 51
+    exp            ir al estado 52
+
+
+State 32
+
+    1 programa: lista_declVars lista_declFuncion SecPpal .
+
+    $default  reduce usando la regla 1 (programa)
+
+
+State 33
+
+    6 lista_declVars: variable ';' lista_declVars .
+
+    $default  reduce usando la regla 6 (lista_declVars)
+
+
+State 34
+
+   15 sentencia: ID '=' . exp ';'
+
+    ID        desplazar e ir al estado 38
+    INT       desplazar e ir al estado 39
+    FLOTANTE  desplazar e ir al estado 40
+
+    invoc_funcion  ir al estado 41
+    exp            ir al estado 53
+
+
+State 35
+
+   19 desplegar: DESPLIEGA '(' . STRING ')'
+   20          | DESPLIEGA '(' . exp ')'
+
+    ID        desplazar e ir al estado 38
+    STRING    desplazar e ir al estado 54
+    INT       desplazar e ir al estado 39
+    FLOTANTE  desplazar e ir al estado 40
+
+    invoc_funcion  ir al estado 41
+    exp            ir al estado 55
+
+
+State 36
+
+   23 condicionalSI: SI '(' . list_exp_logica ')' sentencia OTRO sentencia
+   24              | SI '(' . list_exp_logica ')' '{' lista_sentencias '}' OTRO '{' lista_sentencias '}'
+   25              | SI '(' . list_exp_logica ')' sentencia
+   26              | SI '(' . list_exp_logica ')' '{' lista_sentencias '}'
+
+    NOT  desplazar e ir al estado 56
+
+    $default  reduce usando la regla 39 (op_unario)
+
+    list_exp_logica  ir al estado 57
+    op_unario        ir al estado 58
+
+
+State 37
+
+   27 mientras: MIENTRAS '(' . list_exp_logica ')' '{' '}'
+   28         | MIENTRAS '(' . list_exp_logica ')' '{' lista_sentencias '}'
+   29         | MIENTRAS '(' . list_exp_logica ')' sentencia
+
+    NOT  desplazar e ir al estado 56
+
+    $default  reduce usando la regla 39 (op_unario)
+
+    list_exp_logica  ir al estado 59
+    op_unario        ir al estado 58
+
+
+State 38
+
+   48 invoc_funcion: ID . '(' lista_params ')'
+   49              | ID . '(' ')'
+   53 exp: ID .
+
+    '('  desplazar e ir al estado 60
+
+    $default  reduce usando la regla 53 (exp)
+
+
+State 39
+
+   54 exp: INT .
+
+    $default  reduce usando la regla 54 (exp)
+
+
+State 40
+
+   55 exp: FLOTANTE .
+
+    $default  reduce usando la regla 55 (exp)
+
+
+State 41
+
+   56 exp: invoc_funcion .
+
+    $default  reduce usando la regla 56 (exp)
+
+
+State 42
+
+   16 sentencia: REGRESA exp . ';'
+   57 exp: exp . '+' exp
+   58    | exp . '-' exp
+   59    | exp . '*' exp
+   60    | exp . '/' exp
+
+    ';'  desplazar e ir al estado 61
+    '+'  desplazar e ir al estado 62
+    '-'  desplazar e ir al estado 63
+    '*'  desplazar e ir al estado 64
+    '/'  desplazar e ir al estado 65
+
+
+State 43
+
+   14 sentencia: variable ';' .
+
+    $default  reduce usando la regla 14 (sentencia)
+
+
+State 44
+
+   13 lista_sentencias: sentencia lista_sentencias .
+
+    $default  reduce usando la regla 13 (lista_sentencias)
+
+
+State 45
+
+   18 sentencia: desplegar ';' .
+
+    $default  reduce usando la regla 18 (sentencia)
+
+
+State 46
+
+   11 declFuncion: proto_funcion '{' lista_sentencias . '}'
+
+    '}'  desplazar e ir al estado 66
+
+
+State 47
+
+    8 variable: tipo ID '=' . exp
+
+    ID        desplazar e ir al estado 38
+    INT       desplazar e ir al estado 39
+    FLOTANTE  desplazar e ir al estado 40
+
+    invoc_funcion  ir al estado 41
+    exp            ir al estado 67
+
+
+State 48
+
+   42 proto_funcion: DEFINE ID '(' ')' . ':' tipo
+
+    ':'  desplazar e ir al estado 68
+
+
+State 49
+
+   41 proto_funcion: DEFINE ID '(' lista_params . ')' ':' tipo
+
+    ')'  desplazar e ir al estado 69
+
+
+State 50
+
+   43 lista_params: param .
+   44             | param . ',' lista_params
+
+    ','  desplazar e ir al estado 70
+
+    $default  reduce usando la regla 43 (lista_params)
+
+
+State 51
+
+   45 param: tipo . ID
+   46      | tipo . ID '=' exp
+
+    ID  desplazar e ir al estado 71
+
+
+State 52
+
+   47 param: exp .
+   57 exp: exp . '+' exp
+   58    | exp . '-' exp
+   59    | exp . '*' exp
+   60    | exp . '/' exp
+
+    '+'  desplazar e ir al estado 62
+    '-'  desplazar e ir al estado 63
+    '*'  desplazar e ir al estado 64
+    '/'  desplazar e ir al estado 65
+
+    $default  reduce usando la regla 47 (param)
+
+
+State 53
+
+   15 sentencia: ID '=' exp . ';'
+   57 exp: exp . '+' exp
+   58    | exp . '-' exp
+   59    | exp . '*' exp
+   60    | exp . '/' exp
+
+    ';'  desplazar e ir al estado 72
+    '+'  desplazar e ir al estado 62
+    '-'  desplazar e ir al estado 63
+    '*'  desplazar e ir al estado 64
+    '/'  desplazar e ir al estado 65
+
+
+State 54
+
+   19 desplegar: DESPLIEGA '(' STRING . ')'
+
+    ')'  desplazar e ir al estado 73
+
+
+State 55
+
+   20 desplegar: DESPLIEGA '(' exp . ')'
+   57 exp: exp . '+' exp
+   58    | exp . '-' exp
+   59    | exp . '*' exp
+   60    | exp . '/' exp
+
+    '+'  desplazar e ir al estado 62
+    '-'  desplazar e ir al estado 63
+    '*'  desplazar e ir al estado 64
+    '/'  desplazar e ir al estado 65
+    ')'  desplazar e ir al estado 74
+
+
+State 56
+
+   40 op_unario: NOT .
+
+    $default  reduce usando la regla 40 (op_unario)
+
+
+State 57
+
+   23 condicionalSI: SI '(' list_exp_logica . ')' sentencia OTRO sentencia
+   24              | SI '(' list_exp_logica . ')' '{' lista_sentencias '}' OTRO '{' lista_sentencias '}'
+   25              | SI '(' list_exp_logica . ')' sentencia
+   26              | SI '(' list_exp_logica . ')' '{' lista_sentencias '}'
+
+    ')'  desplazar e ir al estado 75
+
+
+State 58
+
+   30 list_exp_logica: op_unario . exp_logica
+   31                | op_unario . exp_logica op_log_bin list_exp_logica
+
+    ID        desplazar e ir al estado 38
+    INT       desplazar e ir al estado 39
+    FLOTANTE  desplazar e ir al estado 40
+
+    exp_logica     ir al estado 76
+    invoc_funcion  ir al estado 41
+    exp            ir al estado 77
+
+
+State 59
+
+   27 mientras: MIENTRAS '(' list_exp_logica . ')' '{' '}'
+   28         | MIENTRAS '(' list_exp_logica . ')' '{' lista_sentencias '}'
+   29         | MIENTRAS '(' list_exp_logica . ')' sentencia
+
+    ')'  desplazar e ir al estado 78
+
+
+State 60
+
+   48 invoc_funcion: ID '(' . lista_params ')'
+   49              | ID '(' . ')'
+
+    ID        desplazar e ir al estado 38
+    INT       desplazar e ir al estado 39
+    ENTERO    desplazar e ir al estado 1
+    FLOTANTE  desplazar e ir al estado 40
+    FLOAT     desplazar e ir al estado 2
+    ')'       desplazar e ir al estado 79
+
+    lista_params   ir al estado 80
+    param          ir al estado 50
+    invoc_funcion  ir al estado 41
+    tipo           ir al estado 51
+    exp            ir al estado 52
+
+
+State 61
+
+   16 sentencia: REGRESA exp ';' .
+
+    $default  reduce usando la regla 16 (sentencia)
+
+
+State 62
+
+   57 exp: exp '+' . exp
+
+    ID        desplazar e ir al estado 38
+    INT       desplazar e ir al estado 39
+    FLOTANTE  desplazar e ir al estado 40
+
+    invoc_funcion  ir al estado 41
+    exp            ir al estado 81
+
+
+State 63
+
+   58 exp: exp '-' . exp
+
+    ID        desplazar e ir al estado 38
+    INT       desplazar e ir al estado 39
+    FLOTANTE  desplazar e ir al estado 40
+
+    invoc_funcion  ir al estado 41
+    exp            ir al estado 82
+
+
+State 64
+
+   59 exp: exp '*' . exp
+
+    ID        desplazar e ir al estado 38
+    INT       desplazar e ir al estado 39
+    FLOTANTE  desplazar e ir al estado 40
+
+    invoc_funcion  ir al estado 41
+    exp            ir al estado 83
+
+
+State 65
+
+   60 exp: exp '/' . exp
+
+    ID        desplazar e ir al estado 38
+    INT       desplazar e ir al estado 39
+    FLOTANTE  desplazar e ir al estado 40
+
+    invoc_funcion  ir al estado 41
+    exp            ir al estado 84
+
+
+State 66
+
+   11 declFuncion: proto_funcion '{' lista_sentencias '}' .
+
+    $default  reduce usando la regla 11 (declFuncion)
+
+
+State 67
+
+    8 variable: tipo ID '=' exp .
+   57 exp: exp . '+' exp
+   58    | exp . '-' exp
+   59    | exp . '*' exp
+   60    | exp . '/' exp
+
+    '+'  desplazar e ir al estado 62
+    '-'  desplazar e ir al estado 63
+    '*'  desplazar e ir al estado 64
+    '/'  desplazar e ir al estado 65
+
+    $default  reduce usando la regla 8 (variable)
+
+
+State 68
+
+   42 proto_funcion: DEFINE ID '(' ')' ':' . tipo
+
+    ENTERO  desplazar e ir al estado 1
+    FLOAT   desplazar e ir al estado 2
+
+    tipo  ir al estado 85
+
+
+State 69
+
+   41 proto_funcion: DEFINE ID '(' lista_params ')' . ':' tipo
+
+    ':'  desplazar e ir al estado 86
+
+
+State 70
+
+   44 lista_params: param ',' . lista_params
+
+    ID        desplazar e ir al estado 38
+    INT       desplazar e ir al estado 39
+    ENTERO    desplazar e ir al estado 1
+    FLOTANTE  desplazar e ir al estado 40
+    FLOAT     desplazar e ir al estado 2
+
+    lista_params   ir al estado 87
+    param          ir al estado 50
+    invoc_funcion  ir al estado 41
+    tipo           ir al estado 51
+    exp            ir al estado 52
+
+
+State 71
+
+   45 param: tipo ID .
+   46      | tipo ID . '=' exp
+
+    '='  desplazar e ir al estado 88
+
+    $default  reduce usando la regla 45 (param)
+
+
+State 72
+
+   15 sentencia: ID '=' exp ';' .
+
+    $default  reduce usando la regla 15 (sentencia)
+
+
+State 73
+
+   19 desplegar: DESPLIEGA '(' STRING ')' .
+
+    $default  reduce usando la regla 19 (desplegar)
+
+
+State 74
+
+   20 desplegar: DESPLIEGA '(' exp ')' .
+
+    $default  reduce usando la regla 20 (desplegar)
+
+
+State 75
+
+   23 condicionalSI: SI '(' list_exp_logica ')' . sentencia OTRO sentencia
+   24              | SI '(' list_exp_logica ')' . '{' lista_sentencias '}' OTRO '{' lista_sentencias '}'
+   25              | SI '(' list_exp_logica ')' . sentencia
+   26              | SI '(' list_exp_logica ')' . '{' lista_sentencias '}'
+
+    ID         desplazar e ir al estado 15
+    DESPLIEGA  desplazar e ir al estado 16
+    SI         desplazar e ir al estado 17
+    ENTERO     desplazar e ir al estado 1
+    MIENTRAS   desplazar e ir al estado 18
+    FLOAT      desplazar e ir al estado 2
+    REGRESA    desplazar e ir al estado 19
+    '{'        desplazar e ir al estado 89
+
+    variable       ir al estado 21
+    sentencia      ir al estado 90
+    desplegar      ir al estado 24
+    estructura     ir al estado 25
+    condicionalSI  ir al estado 26
+    mientras       ir al estado 27
+    tipo           ir al estado 10
+
+
+State 76
+
+   30 list_exp_logica: op_unario exp_logica .
+   31                | op_unario exp_logica . op_log_bin list_exp_logica
+
+    AND  desplazar e ir al estado 91
+    OR   desplazar e ir al estado 92
+
+    $default  reduce usando la regla 30 (list_exp_logica)
+
+    op_log_bin  ir al estado 93
+
+
+State 77
+
+   32 exp_logica: exp . op_comp exp
+   57 exp: exp . '+' exp
+   58    | exp . '-' exp
+   59    | exp . '*' exp
+   60    | exp . '/' exp
+
+    DIFER    desplazar e ir al estado 94
+    IGUAL    desplazar e ir al estado 95
+    MYIGUAL  desplazar e ir al estado 96
+    MRIGUAL  desplazar e ir al estado 97
+    '+'      desplazar e ir al estado 62
+    '-'      desplazar e ir al estado 63
+    '*'      desplazar e ir al estado 64
+    '/'      desplazar e ir al estado 65
+
+    op_comp  ir al estado 98
+
+
+State 78
+
+   27 mientras: MIENTRAS '(' list_exp_logica ')' . '{' '}'
+   28         | MIENTRAS '(' list_exp_logica ')' . '{' lista_sentencias '}'
+   29         | MIENTRAS '(' list_exp_logica ')' . sentencia
+
+    ID         desplazar e ir al estado 15
+    DESPLIEGA  desplazar e ir al estado 16
+    SI         desplazar e ir al estado 17
+    ENTERO     desplazar e ir al estado 1
+    MIENTRAS   desplazar e ir al estado 18
+    FLOAT      desplazar e ir al estado 2
+    REGRESA    desplazar e ir al estado 19
+    '{'        desplazar e ir al estado 99
+
+    variable       ir al estado 21
+    sentencia      ir al estado 100
+    desplegar      ir al estado 24
+    estructura     ir al estado 25
+    condicionalSI  ir al estado 26
+    mientras       ir al estado 27
+    tipo           ir al estado 10
+
+
+State 79
+
+   49 invoc_funcion: ID '(' ')' .
+
+    $default  reduce usando la regla 49 (invoc_funcion)
+
+
+State 80
+
+   48 invoc_funcion: ID '(' lista_params . ')'
+
+    ')'  desplazar e ir al estado 101
+
+
+State 81
+
+   57 exp: exp . '+' exp
+   57    | exp '+' exp .
+   58    | exp . '-' exp
+   59    | exp . '*' exp
+   60    | exp . '/' exp
+
+    '*'  desplazar e ir al estado 64
+    '/'  desplazar e ir al estado 65
+
+    $default  reduce usando la regla 57 (exp)
+
+
+State 82
+
+   57 exp: exp . '+' exp
+   58    | exp . '-' exp
+   58    | exp '-' exp .
+   59    | exp . '*' exp
+   60    | exp . '/' exp
+
+    '*'  desplazar e ir al estado 64
+    '/'  desplazar e ir al estado 65
+
+    $default  reduce usando la regla 58 (exp)
+
+
+State 83
+
+   57 exp: exp . '+' exp
+   58    | exp . '-' exp
+   59    | exp . '*' exp
+   59    | exp '*' exp .
+   60    | exp . '/' exp
+
+    $default  reduce usando la regla 59 (exp)
+
+
+State 84
+
+   57 exp: exp . '+' exp
+   58    | exp . '-' exp
+   59    | exp . '*' exp
+   60    | exp . '/' exp
+   60    | exp '/' exp .
+
+    $default  reduce usando la regla 60 (exp)
+
+
+State 85
+
+   42 proto_funcion: DEFINE ID '(' ')' ':' tipo .
+
+    $default  reduce usando la regla 42 (proto_funcion)
+
+
+State 86
+
+   41 proto_funcion: DEFINE ID '(' lista_params ')' ':' . tipo
+
+    ENTERO  desplazar e ir al estado 1
+    FLOAT   desplazar e ir al estado 2
+
+    tipo  ir al estado 102
+
+
+State 87
+
+   44 lista_params: param ',' lista_params .
+
+    $default  reduce usando la regla 44 (lista_params)
+
+
+State 88
+
+   46 param: tipo ID '=' . exp
+
+    ID        desplazar e ir al estado 38
+    INT       desplazar e ir al estado 39
+    FLOTANTE  desplazar e ir al estado 40
+
+    invoc_funcion  ir al estado 41
+    exp            ir al estado 103
+
+
+State 89
+
+   24 condicionalSI: SI '(' list_exp_logica ')' '{' . lista_sentencias '}' OTRO '{' lista_sentencias '}'
+   26              | SI '(' list_exp_logica ')' '{' . lista_sentencias '}'
+
+    ID         desplazar e ir al estado 15
+    DESPLIEGA  desplazar e ir al estado 16
+    SI         desplazar e ir al estado 17
+    ENTERO     desplazar e ir al estado 1
+    MIENTRAS   desplazar e ir al estado 18
+    FLOAT      desplazar e ir al estado 2
+    REGRESA    desplazar e ir al estado 19
+
+    variable          ir al estado 21
+    lista_sentencias  ir al estado 104
+    sentencia         ir al estado 23
+    desplegar         ir al estado 24
+    estructura        ir al estado 25
+    condicionalSI     ir al estado 26
+    mientras          ir al estado 27
+    tipo              ir al estado 10
+
+
+State 90
+
+   23 condicionalSI: SI '(' list_exp_logica ')' sentencia . OTRO sentencia
+   25              | SI '(' list_exp_logica ')' sentencia .
+
+    OTRO  desplazar e ir al estado 105
+
+    $default  reduce usando la regla 25 (condicionalSI)
+
+
+State 91
+
+   37 op_log_bin: AND .
+
+    $default  reduce usando la regla 37 (op_log_bin)
+
+
+State 92
+
+   38 op_log_bin: OR .
+
+    $default  reduce usando la regla 38 (op_log_bin)
+
+
+State 93
+
+   31 list_exp_logica: op_unario exp_logica op_log_bin . list_exp_logica
+
+    NOT  desplazar e ir al estado 56
+
+    $default  reduce usando la regla 39 (op_unario)
+
+    list_exp_logica  ir al estado 106
+    op_unario        ir al estado 58
+
+
+State 94
+
+   36 op_comp: DIFER .
+
+    $default  reduce usando la regla 36 (op_comp)
+
+
+State 95
+
+   35 op_comp: IGUAL .
+
+    $default  reduce usando la regla 35 (op_comp)
+
+
+State 96
+
+   33 op_comp: MYIGUAL .
+
+    $default  reduce usando la regla 33 (op_comp)
+
+
+State 97
+
+   34 op_comp: MRIGUAL .
+
+    $default  reduce usando la regla 34 (op_comp)
+
+
+State 98
+
+   32 exp_logica: exp op_comp . exp
+
+    ID        desplazar e ir al estado 38
+    INT       desplazar e ir al estado 39
+    FLOTANTE  desplazar e ir al estado 40
+
+    invoc_funcion  ir al estado 41
+    exp            ir al estado 107
+
+
+State 99
+
+   27 mientras: MIENTRAS '(' list_exp_logica ')' '{' . '}'
+   28         | MIENTRAS '(' list_exp_logica ')' '{' . lista_sentencias '}'
+
+    ID         desplazar e ir al estado 15
+    DESPLIEGA  desplazar e ir al estado 16
+    SI         desplazar e ir al estado 17
+    ENTERO     desplazar e ir al estado 1
+    MIENTRAS   desplazar e ir al estado 18
+    FLOAT      desplazar e ir al estado 2
+    REGRESA    desplazar e ir al estado 19
+    '}'        desplazar e ir al estado 108
+
+    variable          ir al estado 21
+    lista_sentencias  ir al estado 109
+    sentencia         ir al estado 23
+    desplegar         ir al estado 24
+    estructura        ir al estado 25
+    condicionalSI     ir al estado 26
+    mientras          ir al estado 27
+    tipo              ir al estado 10
+
+
+State 100
+
+   29 mientras: MIENTRAS '(' list_exp_logica ')' sentencia .
+
+    $default  reduce usando la regla 29 (mientras)
+
+
+State 101
+
+   48 invoc_funcion: ID '(' lista_params ')' .
+
+    $default  reduce usando la regla 48 (invoc_funcion)
+
+
+State 102
+
+   41 proto_funcion: DEFINE ID '(' lista_params ')' ':' tipo .
+
+    $default  reduce usando la regla 41 (proto_funcion)
+
+
+State 103
+
+   46 param: tipo ID '=' exp .
+   57 exp: exp . '+' exp
+   58    | exp . '-' exp
+   59    | exp . '*' exp
+   60    | exp . '/' exp
+
+    '+'  desplazar e ir al estado 62
+    '-'  desplazar e ir al estado 63
+    '*'  desplazar e ir al estado 64
+    '/'  desplazar e ir al estado 65
+
+    $default  reduce usando la regla 46 (param)
+
+
+State 104
+
+   24 condicionalSI: SI '(' list_exp_logica ')' '{' lista_sentencias . '}' OTRO '{' lista_sentencias '}'
+   26              | SI '(' list_exp_logica ')' '{' lista_sentencias . '}'
+
+    '}'  desplazar e ir al estado 110
+
+
+State 105
+
+   23 condicionalSI: SI '(' list_exp_logica ')' sentencia OTRO . sentencia
+
+    ID         desplazar e ir al estado 15
+    DESPLIEGA  desplazar e ir al estado 16
+    SI         desplazar e ir al estado 17
+    ENTERO     desplazar e ir al estado 1
+    MIENTRAS   desplazar e ir al estado 18
+    FLOAT      desplazar e ir al estado 2
+    REGRESA    desplazar e ir al estado 19
+
+    variable       ir al estado 21
+    sentencia      ir al estado 111
+    desplegar      ir al estado 24
+    estructura     ir al estado 25
+    condicionalSI  ir al estado 26
+    mientras       ir al estado 27
+    tipo           ir al estado 10
+
+
+State 106
+
+   31 list_exp_logica: op_unario exp_logica op_log_bin list_exp_logica .
+
+    $default  reduce usando la regla 31 (list_exp_logica)
+
+
+State 107
+
+   32 exp_logica: exp op_comp exp .
+   57 exp: exp . '+' exp
+   58    | exp . '-' exp
+   59    | exp . '*' exp
+   60    | exp . '/' exp
+
+    '+'  desplazar e ir al estado 62
+    '-'  desplazar e ir al estado 63
+    '*'  desplazar e ir al estado 64
+    '/'  desplazar e ir al estado 65
+
+    $default  reduce usando la regla 32 (exp_logica)
+
+
+State 108
+
+   27 mientras: MIENTRAS '(' list_exp_logica ')' '{' '}' .
+
+    $default  reduce usando la regla 27 (mientras)
+
+
+State 109
+
+   28 mientras: MIENTRAS '(' list_exp_logica ')' '{' lista_sentencias . '}'
+
+    '}'  desplazar e ir al estado 112
+
+
+State 110
+
+   24 condicionalSI: SI '(' list_exp_logica ')' '{' lista_sentencias '}' . OTRO '{' lista_sentencias '}'
+   26              | SI '(' list_exp_logica ')' '{' lista_sentencias '}' .
+
+    OTRO  desplazar e ir al estado 113
+
+    $default  reduce usando la regla 26 (condicionalSI)
+
+
+State 111
+
+   23 condicionalSI: SI '(' list_exp_logica ')' sentencia OTRO sentencia .
+
+    $default  reduce usando la regla 23 (condicionalSI)
+
+
+State 112
+
+   28 mientras: MIENTRAS '(' list_exp_logica ')' '{' lista_sentencias '}' .
+
+    $default  reduce usando la regla 28 (mientras)
+
+
+State 113
+
+   24 condicionalSI: SI '(' list_exp_logica ')' '{' lista_sentencias '}' OTRO . '{' lista_sentencias '}'
+
+    '{'  desplazar e ir al estado 114
+
+
+State 114
+
+   24 condicionalSI: SI '(' list_exp_logica ')' '{' lista_sentencias '}' OTRO '{' . lista_sentencias '}'
+
+    ID         desplazar e ir al estado 15
+    DESPLIEGA  desplazar e ir al estado 16
+    SI         desplazar e ir al estado 17
+    ENTERO     desplazar e ir al estado 1
+    MIENTRAS   desplazar e ir al estado 18
+    FLOAT      desplazar e ir al estado 2
+    REGRESA    desplazar e ir al estado 19
+
+    variable          ir al estado 21
+    lista_sentencias  ir al estado 115
+    sentencia         ir al estado 23
+    desplegar         ir al estado 24
+    estructura        ir al estado 25
+    condicionalSI     ir al estado 26
+    mientras          ir al estado 27
+    tipo              ir al estado 10
+
+
+State 115
+
+   24 condicionalSI: SI '(' list_exp_logica ')' '{' lista_sentencias '}' OTRO '{' lista_sentencias . '}'
+
+    '}'  desplazar e ir al estado 116
+
+
+State 116
+
+   24 condicionalSI: SI '(' list_exp_logica ')' '{' lista_sentencias '}' OTRO '{' lista_sentencias '}' .
+
+    $default  reduce usando la regla 24 (condicionalSI)

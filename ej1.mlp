@@ -1,0 +1,29 @@
+entero i;
+entero k=i;
+flotante pi=3.1416;
+entero f factorial;
+
+define factorial(entero i):entero
+{
+   si(i<=1)
+     regresa 1;
+   otro
+      regresa i*factorial(i-1);
+}
+
+define areaC(flotante radio): flotante
+{
+	regresa 3.1416*radio*radio;
+
+}
+
+entero f=factorial(5);
+despliega("El factorial de 5\t\t es\012\015 y...\
+             adios\n");
+despliega(f);
+
+despliega("El área de un círculo de radio r=5.3 es:");
+despliega(areaC(5.3));
+
+regresa 1;
+
